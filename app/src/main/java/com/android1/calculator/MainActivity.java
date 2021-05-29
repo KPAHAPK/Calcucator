@@ -19,5 +19,7 @@ public class MainActivity extends AppCompatActivity {
         workField.requestFocus();
         workField.setShowSoftInputOnFocus(false);
 
+
+
     }
 }
