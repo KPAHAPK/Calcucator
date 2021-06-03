@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.BaseButton" parent="TextAppearance.AppCompat.Button">
+    <style name="BaseButton" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/button</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:layout_margin">5dp</item>
         <item name="android:textColor">#ffffff</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">20sp</item>
+        <item name="autoSizeMinTextSize">12sp</item>
+        <item name="autoSizeStepGranularity">2sp</item>
+        <item name="strokeWidth">3dp</item>
+        <item name="strokeColor">@color/white</item>
     </style>
 
-    <style name="Theme.NumberButton" parent="Theme.BaseButton">
-        <item name="android:background">@drawable/btn_number_bg_selector</item>
+    <style name="NumberButton" parent="BaseButton">
+        <item name="android:backgroundTint">@drawable/btn_number_bg_selector</item>
+        <item name="cornerRadius">25dp</item>
     </style>
 
-    <style name="Theme.NonNumber" parent="Theme.BaseButton">
-        <item name="android:background">@drawable/btn_bg_selector</item>
-
+    <style name="NonNumber" parent="BaseButton">
+        <item name="cornerFamilyBottomLeft">cut</item>
+        <item name="cornerSizeBottomLeft">25dp</item>
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">50dp</item>
+        <item name="android:backgroundTint">@drawable/btn_bg_selector</item>
     </style>
 
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="button">24sp</dimen>
-    <dimen name="shape_stroke">5dp</dimen>
+    <dimen name="stroke_padding">5dp</dimen>
+    <dimen name="work_field_max_height">100dp</dimen>
 </resources>

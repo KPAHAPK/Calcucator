@@ -3,216 +3,187 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/ic_gears_5193383"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/ic_gears_5193383" />
 
-    <EditText
-        android:id="@+id/work_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/grid_layout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:background="#ffffff"
-        android:gravity="center"
-        android:keyboardNavigationCluster="false"
-        android:inputType="none"
-        android:hint="2+2"
-        android:ems="15"/>
-
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Result"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:autoSizeTextType="uniform"
+        android:background="@color/white"
+        android:ellipsize="end"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/work_field"
-        app:layout_constraintBottom_toTopOf="@id/grid_layout"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="#ffffff"
-        android:padding="5dp"/>
+        android:hint="@string/result"
+        android:padding="@dimen/stroke_padding"
+        android:textAlignment="textEnd"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/work_layout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/work_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/work_field_max_height"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/result">
+
+        <TextView
+            android:id="@+id/fake_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeMaxTextSize="80sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/border_txtview"
+            android:maxLines="1"
+            android:padding="@dimen/stroke_padding"
+            android:text="@string/number_0"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/work_field"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:keyboardNavigationCluster="false"
+            android:maxLines="1"
+            android:text="@string/number_0"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/fake_text_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <GridLayout
         android:id="@+id/grid_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:columnCount="4"
+        android:columnCount="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <Button
-            android:visibility="invisible"/>
-        <Button
-            android:visibility="invisible"/>
-
-
-        <Button
-            android:id="@+id/clear_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/cleaner"
-            android:textSize="24sp" />
-
-
-        <Button
-            android:id="@+id/remove"
-            android:drawableEnd="@drawable/ic_baseline_backspace_24"
-            android:gravity="center"/>
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_1"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_1" />
 
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_2"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_2" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_3"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_3" />
 
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/division"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="@string/division_sign"
-            android:textSize="24sp" />
+            style="@style/NonNumber"
+            android:text="@string/division_sign" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/switch_button"
+            style="@style/NonNumber"
+            android:text="@string/plush_slash_minus"
+            android:visibility="visible" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_4"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_4" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_5"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_5" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_6"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_6" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/multiplication"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="@string/multiplication_sign"
-            android:textSize="24sp" />
+            style="@style/NonNumber"
+            android:text="@string/multiplication_sign" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ce"
+            style="@style/NonNumber"
+            android:layout_width="wrap_content"
+            android:text="@string/ce"
+            android:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_7"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_7" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_8"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_8" />
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_9"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_9" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/addition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="@string/addition_sign"
-            android:textSize="24sp" />
+            style="@style/NonNumber"
+            android:text="@string/addition_sign" />
 
-        <Button
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/clean"
+            style="@style/NonNumber"
+            android:text="@string/cleaner" />
+
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/dot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="@string/dot"
-            android:textSize="24sp" />
+            style="@style/NonNumber"
+            android:text="@string/dot" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/number_0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:backgroundTint="#777777"
-            android:text="@string/number_0"
-            android:textSize="24sp" />
+            style="@style/NumberButton"
+            android:text="@string/number_0" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/equal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="@string/equal_sign"
-            android:textSize="24sp" />
+            style="@style/NonNumber"
+            android:text="@string/equal_sign" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/subtraction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="@string/subtraction_sign"
-            android:textSize="24sp" />
+            style="@style/NonNumber"
+            android:text="@string/subtraction_sign" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/remove"
+            style="@style/NonNumber"
+            android:gravity="center"
+            app:icon="@drawable/ic_baseline_backspace_24"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white" />
 
     </GridLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
