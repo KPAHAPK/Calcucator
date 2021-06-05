@@ -11,4 +11,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="button">#777777</color>
+    <color name="gray">#6F6F6F</color>
+    <color name="light_blue">#14FFDB</color>
+    <color name="colorAccent">#FF4032</color>
 </resources>

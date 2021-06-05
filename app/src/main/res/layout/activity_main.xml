@@ -4,29 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="?attr/backgroundColor"
+    android:theme="@style/Calculator.Light">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/ic_gears_5193383" />
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/result"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_height="@dimen/result_height"
+        android:layout_marginTop="@dimen/result_marginTop"
         android:autoSizeTextType="uniform"
-        android:background="@color/white"
+        android:background="?attr/viewBackgroundColor"
         android:ellipsize="end"
-        android:gravity="center"
+        android:gravity="end"
         android:hint="@string/result"
         android:padding="@dimen/stroke_padding"
         android:textAlignment="textEnd"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
+        android:textColor="?attr/textColor"
+        android:textColorHint="?attr/textColor"
         app:layout_constraintBottom_toTopOf="@id/work_layout"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,22 +31,22 @@
         android:id="@+id/work_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/work_field_max_height"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/work_layout_marginTop"
         app:layout_constraintTop_toBottomOf="@id/result">
 
         <TextView
             android:id="@+id/fake_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:autoSizeMaxTextSize="80sp"
-            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="@dimen/max_size_workfield"
+            android:autoSizeMinTextSize="@dimen/min_size_workfield"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/border_txtview"
+            android:background="?attr/viewBackgroundColor"
             android:maxLines="1"
             android:padding="@dimen/stroke_padding"
             android:text="@string/number_0"
             android:textAlignment="textEnd"
-            android:textColor="@color/black" />
+            android:textColor="?attr/textColor" />
 
         <EditText
             android:id="@+id/work_field"
@@ -64,6 +61,15 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/grid_layout"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/white"
+        android:layout_margin="20dp"/>
+
 
     <GridLayout
         android:id="@+id/grid_layout"
@@ -76,7 +82,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/switch_button"
-            style="@style/NonNumber"
             android:text="@string/plush_slash_minus"
             android:visibility="visible" />
 

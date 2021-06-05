@@ -1,36 +1,41 @@
 package com.android1.calculator;
 
+import android.annotation.SuppressLint;
+import android.widget.Button;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.DoubleBinaryOperator;
 
 enum Calculator {
-    ADD('+', Double::sum),
-    DIVIDE('/', (left, right) -> {
+    ADD(Double::sum),
+    DIVIDE((left, right) -> {
         if (right == 0) throw new ArithmeticException("Деление на 0!");
         return left / right;
 
     }),
-    MULTIPLY('x', (left, right) -> left * right),
-    SUBTRACT('-', (left, right) -> left - right);
+    MULTIPLY((left, right) -> left * right),
+    SUBTRACT((left, right) -> left - right);
 
-    private final char symbol;
     DoubleBinaryOperator doubleBinaryOperator;
+    MainActivity mainActivity = new MainActivity();
+    @SuppressLint("ResourceType")
+    char additionSymbol = mainActivity.getResources().getString(R.string.addition_sign).charAt(0);
+    char divisionSymbol = mainActivity.getResources().getString(R.string.division_sign).charAt(0);
+    char multiplicationSymbol = mainActivity.getResources().getString(R.string.multiplication_sign).charAt(0);
+    char subtractionSymbol = mainActivity.getResources().getString(R.string.subtraction_sign).charAt(0);
+
+
     public static Map<Character, Calculator> map = new HashMap<Character, Calculator>() {{
-        put(ADD.getSymbol(), ADD);
-        put(DIVIDE.getSymbol(), DIVIDE);
-        put(MULTIPLY.getSymbol(), MULTIPLY);
-        put(SUBTRACT.getSymbol(), SUBTRACT);
+        put(ADD.additionSymbol, ADD);
+        put(DIVIDE.divisionSymbol, DIVIDE);
+        put(MULTIPLY.multiplicationSymbol, MULTIPLY);
+        put(SUBTRACT.subtractionSymbol, SUBTRACT);
 
     }};
 
-    Calculator(char symbol, DoubleBinaryOperator doubleBinaryOperator) {
-        this.symbol = symbol;
+    Calculator(DoubleBinaryOperator doubleBinaryOperator) {
         this.doubleBinaryOperator = doubleBinaryOperator;
-    }
-
-    public char getSymbol() {
-        return symbol;
     }
 
     public static Calculator getOperation(char operator) {

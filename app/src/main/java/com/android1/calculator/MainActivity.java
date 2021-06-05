@@ -3,47 +3,56 @@ package com.android1.calculator;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.text.DecimalFormat;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    private ThemeStorage themeStorage;
     private boolean isFirstOperation = true;
-    private boolean isOperatorChosen = false;
+    private boolean isOperatorSelected = false;
+    boolean isValueSet = false;
 
-    char operator;
+    SwitchMaterial switchTheme;
+    MaterialButton pressedButton;
+    char selectedOperator;
 
     private final String KEY = "Key";
-    Fields values = new Fields();
+    FieldsAndValues values = new FieldsAndValues();
 
     EditText workField;
     TextView result;
     TextView fakeWorkField;
-    MaterialButton pressedButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        themeStorage = new ThemeStorage(this);
+
+        setTheme(themeStorage.getTheme().getResources());
+
+        setContentView(R.layout.activity_main);
 
         workField = findViewById(R.id.work_field);
         result = findViewById(R.id.result);
         fakeWorkField = findViewById(R.id.fake_text_view);
 
-        workField.requestFocus();
-        workField.setShowSoftInputOnFocus(false);
-
+        switchTheme = findViewById(R.id.switch_theme);
 
         MaterialButton button0 = findViewById(R.id.number_0);
         MaterialButton button1 = findViewById(R.id.number_1);
@@ -66,6 +75,17 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton buttonCE = findViewById(R.id.ce);
         MaterialButton buttonSwitch = findViewById(R.id.switch_button);
 
+        switchTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    themeStorage.setTheme(AppTheme.LIGHT);
+                } else {
+                    themeStorage.setTheme(AppTheme.DARK);
+                }
+            }
+        });
+
         button0.setOnClickListener(element2 -> {
             if (!workField.getText().toString().isEmpty()) {
                 addElementOfExpression(element2);
@@ -80,63 +100,53 @@ public class MainActivity extends AppCompatActivity {
         button7.setOnClickListener(this::addElementOfExpression);
         button8.setOnClickListener(this::addElementOfExpression);
         button9.setOnClickListener(this::addElementOfExpression);
-        buttonDot.setOnClickListener(element1 -> addElementOfExpression(element1));
+
+        buttonDot.setOnClickListener(element1 -> {
+            if (workField.getText().toString().isEmpty()) {
+                workField.setText("0");
+            }
+            addElementOfExpression(element1);
+        });
 
         buttonCleaner.setOnClickListener(v -> setDefault());
 
         buttonCE.setOnClickListener(v -> workField.setText("0"));
 
         buttonSwitch.setOnClickListener(v -> {
-            if (!workField.getText().toString().isEmpty()) {
-                int a = Integer.parseInt(fakeWorkField.getText().toString());
-                if (a != 0) {
-                    a = a * (-1);
-                    workField.setText(String.valueOf(a));
-                }
-            }
+            int a = Integer.parseInt(workField.getText().toString());
+            a = a * (-1);
+            workField.setText(String.format("%d", a));
         });
 
         buttonRemove.setOnClickListener(v -> {
             String expression = workField.getText().toString();
             int input = expression.length();
             if (input > 0) {
-                workField.setText(expression.substring(0, input - 1));
+                workField.setText(expression.substring(0, --input));
             }
-
+            if (input == 0) {
+                workField.setText("0");
+            }
         });
 
         buttonAddition.setOnClickListener(element -> {
-            boolean isValueSet = setValues();
-            if (isValueSet) {
-                addElementOfExpression(element);
-                result();
-            }
+            addElementOfExpression(element);
+            result();
         });
 
         buttonMultiplication.setOnClickListener(element -> {
-            boolean isValueSet = setValues();
-            if (isValueSet) {
-                addElementOfExpression(element);
-                result();
-            }
-
+            addElementOfExpression(element);
+            result();
         });
 
         buttonSubtraction.setOnClickListener(element -> {
-            boolean isValueSet = setValues();
-            if (isValueSet) {
-                addElementOfExpression(element);
-                result();
-            }
+            addElementOfExpression(element);
+            result();
         });
 
         buttonDivision.setOnClickListener(element -> {
-            boolean isValueSet = setValues();
-            if (isValueSet) {
-                addElementOfExpression(element);
-                result();
-            }
-
+            addElementOfExpression(element);
+            result();
         });
 
         buttonEqual.setOnClickListener(v -> {
@@ -144,17 +154,17 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 if (!isFirstOperation) {
-                    if (!isOperatorChosen) {
+                    if (!isOperatorSelected) {
                         values.setSecondValue(Double.parseDouble(workField.getText().toString()));
-                        isOperatorChosen = true;
+                        isOperatorSelected = true;
                     }
                     result.setText(String.format("%s%s%s%s",
                             outputResult(values.getFirstValue()),
-                            operator,
+                            selectedOperator,
                             outputResult(values.getSecondValue()),
                             pressedButton.getText().toString()));
 
-                    double equalityResult = Calculator.getOperation(this.operator).calculate(
+                    double equalityResult = Calculator.getOperation(this.selectedOperator).calculate(
                             values.getFirstValue(),
                             values.getSecondValue());
                     values.setFirstValue(equalityResult);
@@ -185,23 +195,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setDefault() {
-        fakeWorkField.setText("0");
-        workField.setText("0");
-        result.setText("");
-        values.setFirstValue(0);
-        values.setSecondValue(0);
-        isFirstOperation = true;
-        isOperatorChosen = false;
-    }
-
-    private String outputResult(double value) {
-        if (value == (long) value) {
-            return String.format("%s", (long) value);
-        } else {
-            return String.format("%s", value);
-        }
-    }
 
     private void addElementOfExpression(View element) {
         pressedButton = (MaterialButton) element;
@@ -211,50 +204,87 @@ public class MainActivity extends AppCompatActivity {
 
         if (Character.isDigit(pressedButtonSymbolChar)
                 || pressedButtonSymbolChar == '.') {
-            if (!isFirstOperation) {
-                isOperatorChosen = false;
-            }
-            if (workField.getText().toString().equals("0")) {
-                workField.setText("");
-            }
+//            if (!isFirstOperation) {
+//                isOperatorSelected = false;
+//            }
             workField.append(pressedButtonSymbolStr);
         } else {
-            operator = pressedButtonSymbolChar;
+            selectedOperator = pressedButtonSymbolChar;
+            result.setText(String.format("%s%s", outputResult(values.getFirstValue()), selectedOperator));
+            values.setSecondValue(Double.parseDouble(workField.getText().toString()));
         }
     }
 
     private void result() {
-        result.setText(String.format("%s%s", outputResult(values.getFirstValue()), operator));
-        workField.setText("0");
-        fakeWorkField.setText(String.format("%s", outputResult(values.getFirstValue())));
+
+//        workField.setText(String.format("%s", outputResult(values.getFirstValue())));
+//        workField.setText("0");
+//        fakeWorkField.setText(String.format("%s", outputResult(values.getFirstValue())));
     }
 
-    private boolean setValues() {
+    private void setValues() {
+//        try {
+//            if (isFirstOperation || isOperatorSelected) {
+//                values.setFirstValue(Double.parseDouble(workField.getText().toString()));
+//                isFirstOperation = false;
+//            } else {
+//                values.setSecondValue(Double.parseDouble(workField.getText().toString()));
+//                values.setFirstValue(Calculator.getOperation(this.selectedOperator).calculate(
+//                        values.getFirstValue(),
+//                        values.getSecondValue()));
+//            }
+//            isOperatorSelected = true;
+//            return true;
+//
+//        } catch (ArithmeticException e) {
+//            setDefault();
+//            fakeWorkField.setText(e.getMessage());
+//            return false;
+//        }
         try {
-            if (isFirstOperation || isOperatorChosen) {
-                values.setFirstValue(Double.parseDouble(workField.getText().toString()));
-                isFirstOperation = false;
-            } else {
-                values.setSecondValue(Double.parseDouble(workField.getText().toString()));
-                values.setFirstValue(Calculator.getOperation(this.operator).calculate(
-                        values.getFirstValue(),
-                        values.getSecondValue()));
-            }
-            isOperatorChosen = true;
-            return true;
+            values.setFirstValue(Double.parseDouble(workField.getText().toString()));
+            values.setSecondValue(Double.parseDouble(workField.getText().toString()));
+            values.setFirstValue(Calculator.getOperation(this.selectedOperator).calculate(
+                    values.getFirstValue(),
+                    values.getSecondValue()));
+            isOperatorSelected = true;
 
-        } catch (ArithmeticException e) {
+        } catch (
+                ArithmeticException e) {
             setDefault();
             fakeWorkField.setText(e.getMessage());
-            return false;
         }
+    }
+
+
+    private String outputResult(double value) {
+        if (value == (long) value) {
+            return String.format("%d", (long) value);
+        } else {
+            if (String.valueOf(value).length() < 16) {
+                DecimalFormat df = new DecimalFormat("#.###############");
+                return df.format(value);
+            } else {
+                DecimalFormat df = new DecimalFormat("#.###############E0");
+                return df.format(value).replace("E", "*10^");
+            }
+        }
+    }
+
+    private void setDefault() {
+        fakeWorkField.setText("");
+        workField.setText("0");
+        result.setText("");
+        values.setFirstValue(0);
+        values.setSecondValue(0);
+        isFirstOperation = true;
+        isOperatorSelected = false;
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle instanceState) {
         super.onSaveInstanceState(instanceState);
         instanceState.putParcelable(KEY, values);
-
     }
 
     @Override
