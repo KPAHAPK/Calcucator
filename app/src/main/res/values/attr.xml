@@ -6,5 +6,7 @@
         <attr name="textColor" format="color"/>
         <attr name="tintColor" format="color"/>
         <attr name="buttonColor" format="color"/>
+        <attr name="buttonTextColor" format="color"/>
+        <attr name="modeIcon" format="reference"/>
     </declare-styleable>
 </resources>

@@ -4,10 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:background="?attr/backgroundColor"
-    android:theme="@style/Calculator.Light">
+    android:theme="@style/Calculator"
+    tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/img_mode"
+        android:layout_width="@dimen/mode_icon_size"
+        android:layout_height="@dimen/mode_icon_size"
+        android:src="?attr/modeIcon"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/margin_top_mode_icon" />
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -25,13 +34,14 @@
         android:textColor="?attr/textColor"
         android:textColorHint="?attr/textColor"
         app:layout_constraintBottom_toTopOf="@id/work_layout"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/img_mode" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/work_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/work_field_max_height"
         android:layout_marginTop="@dimen/work_layout_marginTop"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/result">
 
         <TextView
@@ -56,20 +66,26 @@
             android:keyboardNavigationCluster="false"
             android:maxLines="1"
             android:text="@string/number_0"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/fake_text_view" />
+            android:visibility="gone" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    </LinearLayout>
+
+
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/night"
+        android:textColorHint="?attr/textColor"
+        android:textColor="?attr/textColor"
+        android:textOff="@string/night_mode_switch_off"
+        android:textOn="@string/night_mode_switch_on"
+        android:thumb="@drawable/switch_mode"
         app:layout_constraintBottom_toTopOf="@id/grid_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/white"
-        android:layout_margin="20dp"/>
-
+        app:showText="true" />
 
     <GridLayout
         android:id="@+id/grid_layout"
@@ -82,26 +98,30 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/switch_button"
+            style="@style/BaseButton"
+            android:gravity="center"
             android:text="@string/plush_slash_minus"
             android:visibility="visible" />
 
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/ce"
-            style="@style/NonNumber"
+            style="@style/BaseButton"
             android:layout_width="wrap_content"
             android:text="@string/ce"
             android:visibility="visible" />
 
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/clean"
-            style="@style/NonNumber"
+            style="@style/BaseButton"
+
             android:text="@string/cleaner" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/remove"
-            style="@style/NonNumber"
+            style="@style/BaseButton"
             android:gravity="center"
+
             app:icon="@drawable/ic_baseline_backspace_24"
             app:iconGravity="textStart"
             app:iconTint="@color/white" />
@@ -125,9 +145,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/division"
-            style="@style/NonNumber"
+            style="@style/BaseButton"
             android:text="@string/division_sign" />
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/number_4"
@@ -146,7 +165,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/multiplication"
-            style="@style/NonNumber"
+            style="@style/BaseButton"
             android:text="@string/multiplication_sign" />
 
         <com.google.android.material.button.MaterialButton
@@ -167,12 +186,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addition"
-            style="@style/NonNumber"
+            style="@style/BaseButton"
             android:text="@string/addition_sign" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/dot"
-            style="@style/NonNumber"
+            style="@style/BaseButton"
             android:text="@string/dot" />
 
         <com.google.android.material.button.MaterialButton
@@ -182,12 +201,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/equal"
-            style="@style/NonNumber"
+            style="@style/BaseButton"
             android:text="@string/equal_sign" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/subtraction"
-            style="@style/NonNumber"
+            style="@style/BaseButton"
             android:text="@string/subtraction_sign" />
 
     </GridLayout>

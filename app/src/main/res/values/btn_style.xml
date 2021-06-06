@@ -7,26 +7,24 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_margin">5dp</item>
-        <item name="tintColor">?attr/tintColor</item>
         <item name="autoSizeTextType">uniform</item>
         <item name="autoSizeMaxTextSize">20sp</item>
         <item name="autoSizeMinTextSize">12sp</item>
         <item name="autoSizeStepGranularity">2sp</item>
         <item name="strokeWidth">3dp</item>
         <item name="strokeColor">@color/white</item>
-    </style>
-
-    <style name="NumberButton" parent="BaseButton">
-        <item name="android:backgroundTint">@drawable/btn_number_bg_selector</item>
-        <item name="cornerRadius">25dp</item>
-    </style>
-
-    <style name="NonNumber" parent="BaseButton">
         <item name="cornerFamilyBottomLeft">cut</item>
         <item name="cornerSizeBottomLeft">25dp</item>
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">50dp</item>
         <item name="android:backgroundTint">@drawable/btn_bg_selector</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+    </style>
+
+    <style name="NumberButton" parent="BaseButton">
+        <item name="android:backgroundTint">@drawable/btn_number_bg_selector</item>
+        <item name="cornerRadius">25dp</item>
     </style>
 
 </resources>

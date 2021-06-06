@@ -2,6 +2,7 @@ package com.android1.calculator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isOperatorSelected = false;
     boolean isValueSet = false;
 
-    SwitchMaterial switchTheme;
+    SwitchCompat switchTheme;
     MaterialButton pressedButton;
     char selectedOperator;
 
@@ -75,16 +76,24 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton buttonCE = findViewById(R.id.ce);
         MaterialButton buttonSwitch = findViewById(R.id.switch_button);
 
-        switchTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        if (switchTheme.isChecked()) {
+            themeStorage.setTheme(AppTheme.DARK);
+        } else {
+            themeStorage.setTheme(AppTheme.LIGHT);
+        }
+
+        switchTheme.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    themeStorage.setTheme(AppTheme.LIGHT);
-                } else {
+            public void onClick(View v) {
+                if (switchTheme.isChecked()) {
                     themeStorage.setTheme(AppTheme.DARK);
+                } else {
+                    themeStorage.setTheme(AppTheme.LIGHT);
                 }
+                recreate();
             }
         });
+
 
         button0.setOnClickListener(element2 -> {
             if (!workField.getText().toString().isEmpty()) {
