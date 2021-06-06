@@ -47,7 +47,7 @@
         <TextView
             android:id="@+id/fake_text_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:autoSizeMaxTextSize="@dimen/max_size_workfield"
             android:autoSizeMinTextSize="@dimen/min_size_workfield"
             android:autoSizeTextType="uniform"
@@ -61,12 +61,19 @@
         <EditText
             android:id="@+id/work_field"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:inputType="numberDecimal"
             android:keyboardNavigationCluster="false"
             android:maxLines="1"
             android:text="@string/number_0"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:textAlignment="textEnd"
+            android:textColor="?attr/textColor"
+            android:autoSizeMinTextSize="@dimen/min_size_workfield"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="@dimen/max_size_workfield"
+            android:background="?attr/viewBackgroundColor"
+            />
 
 
     </LinearLayout>
