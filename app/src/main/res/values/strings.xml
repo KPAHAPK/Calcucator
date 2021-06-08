@@ -27,4 +27,5 @@
     <string name="day">Day Mode</string>
     <string name="night_mode_switch_off">Off</string>
     <string name="night_mode_switch_on">On</string>
+    <string name="settings">settings</string>
 </resources>
