@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Calculator" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Calculator" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,5 +12,32 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="buttonStyle">@style/BaseButton</item>
     </style>
+
+    <style name="Calculator.Light">
+        <item name="colorPrimary">#2196F3</item>
+        <item name="colorPrimaryDark">#1976D2</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundColor">#9CE6FF</item>
+        <item name="viewBackgroundColor">#ffffff</item>
+        <item name="textColor">#808080</item>
+        <item name="tintColor">#000000</item>
+        <item name="buttonTextColor">#000000</item>
+        <item name="modeIcon">@drawable/ic_day_mode</item>
+    </style>
+
+    <style name="Calculator.Dark">
+        <item name="colorPrimary">#212121</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundColor">#303030</item>
+        <item name="viewBackgroundColor">#424242</item>
+        <item name="textColor">#ffffff</item>
+        <item name="tintColor">#ffffff</item>
+        <item name="buttonTextColor">#ffffff</item>
+        <item name="modeIcon">@drawable/ic_night_mode</item>
+    </style>
+
+
 </resources>
