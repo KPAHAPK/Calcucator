@@ -5,45 +5,45 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    ThemeStorage themeStorage;
-    SettingsStorage settingsStorage;
-    SwitchMaterial switchTheme;
-    MainActivity mainActivity;
-    private static final String KEY_RESULT = "KEY_RESULT";
+    public static ThemeStorage themeStorage;
+    public static final String KEY_RESULT = "KEY_RESULT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         themeStorage = new ThemeStorage(this);
-        settingsStorage = new SettingsStorage(this);
-
-
         setTheme(themeStorage.getTheme().getResources());
+
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_settings);
 
-        switchTheme = findViewById(R.id.switch_theme);
-        switchTheme.setChecked(settingsStorage.getSwitchState());
-
-
-        switchTheme.setOnClickListener(v -> {
-            if (switchTheme.isChecked()) {
-                themeStorage.setTheme(AppTheme.DARK);
-                settingsStorage.setSwitchState(true);
-            } else {
+        findViewById(R.id.day_mode_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 themeStorage.setTheme(AppTheme.LIGHT);
-                settingsStorage.setSwitchState(false);
+                applyTheme();
             }
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra(KEY_RESULT, switchTheme.isChecked());
-            setResult(Activity.RESULT_OK, resultIntent);
-            recreate();
         });
+
+        findViewById(R.id.night_mode_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                themeStorage.setTheme(AppTheme.DARK);
+                applyTheme();
+            }
+        });
+    }
+
+    public void applyTheme() {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(KEY_RESULT, themeStorage.getTheme().getResources());
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 }

@@ -4,36 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
+    android:orientation="vertical"
     android:theme="@style/Calculator"
-    tools:context=".SettingsActivity"
-    android:orientation="vertical">
+    tools:context=".SettingsActivity">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/settings"
-        android:textColor="?attr/textColor"
         android:layout_gravity="center"
         android:layout_margin="20dp"
+        android:text="@string/settings"
         android:textAllCaps="true"
-        android:textSize="@dimen/settings_headline"/>
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch_theme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/stroke_padding"
-        android:text="@string/night"
         android:textColor="?attr/textColor"
-        android:textColorHint="?attr/textColor"
-        android:textOff="@string/night_mode_switch_off"
-        android:textOn="@string/night_mode_switch_on"
-        android:thumb="@drawable/switch_mode"
-        app:layout_constraintBottom_toTopOf="@id/grid_layout"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:showText="true" />
+        android:textSize="@dimen/settings_headline" />
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/day_mode_button"
+            style="@style/BaseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/day_mode" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/night_mode_button"
+            style="@style/BaseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/night_mode" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

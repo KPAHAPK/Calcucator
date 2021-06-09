@@ -28,4 +28,6 @@
     <string name="night_mode_switch_off">Off</string>
     <string name="night_mode_switch_on">On</string>
     <string name="settings">settings</string>
+    <string name="day_mode">Day mode</string>
+    <string name="night_mode">Night mode</string>
 </resources>

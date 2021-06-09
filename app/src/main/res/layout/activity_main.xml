@@ -12,11 +12,11 @@
         android:id="@+id/img_mode"
         android:layout_width="@dimen/mode_icon_size"
         android:layout_height="@dimen/mode_icon_size"
+        android:layout_marginTop="@dimen/margin_top_mode_icon"
         android:src="?attr/modeIcon"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/margin_top_mode_icon" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -62,18 +62,17 @@
             android:id="@+id/work_field"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:autoSizeMaxTextSize="@dimen/max_size_workfield"
+            android:autoSizeMinTextSize="@dimen/min_size_workfield"
+            android:autoSizeTextType="uniform"
+            android:background="?attr/viewBackgroundColor"
             android:inputType="numberDecimal"
             android:keyboardNavigationCluster="false"
             android:maxLines="1"
             android:text="@string/number_0"
-            android:visibility="visible"
             android:textAlignment="textEnd"
             android:textColor="?attr/textColor"
-            android:autoSizeMinTextSize="@dimen/min_size_workfield"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMaxTextSize="@dimen/max_size_workfield"
-            android:background="?attr/viewBackgroundColor"
-            />
+            android:visibility="visible" />
 
 
     </LinearLayout>
@@ -81,12 +80,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/settings_button"
+        style="@style/BaseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/grid_layout"
-        app:layout_constraintEnd_toEndOf="@id/grid_layout"
         android:text="@string/settings"
-        style="@style/BaseButton"/>
+        app:layout_constraintBottom_toTopOf="@+id/grid_layout"
+        app:layout_constraintEnd_toEndOf="@id/grid_layout" />
 
     <GridLayout
         android:id="@+id/grid_layout"

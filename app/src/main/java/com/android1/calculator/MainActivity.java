@@ -16,15 +16,16 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.text.DecimalFormat;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private ThemeStorage themeStorage;
     private boolean isFirstOperation = true;
     private boolean isOperatorSelected = false;
     private boolean needToCleanWorkField = false;
@@ -35,12 +36,13 @@ public class MainActivity extends AppCompatActivity {
     private final int[] symbolButtonIds = new int[]{R.id.addition, R.id.subtraction, R.id.multiplication,
             R.id.division};
 
-    private final String KEY = "Key";
+    private final String KEY = "KEY";
     FieldsAndValues values;
 
     EditText workField;
     TextView result;
     TextView fakeWorkField;
+    public static ThemeStorage themeStorage;
 
 
     @Override
@@ -72,21 +74,25 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton buttonCE = findViewById(R.id.ce);
         MaterialButton buttonSwitch = findViewById(R.id.switch_button);
 
+
         ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK)
-                    if (result.getData() != null){
-
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getData() != null) {
+                        setTheme(result.getData().getIntExtra(SettingsActivity.KEY_RESULT, 0));
+                        recreate();
                     }
+                }
             }
         });
+
 
         findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                launcher.launch(intent);
             }
         });
 
