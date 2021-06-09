@@ -8,7 +8,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ThemeStorage {
 
-    SharedPreferences sharedPref;
+    static SharedPreferences sharedPref;
     static final String KEY = "KEY";
 
     public ThemeStorage(Context context) {
@@ -16,12 +16,12 @@ public class ThemeStorage {
 
     }
 
-    public AppTheme getTheme(){
+    public AppTheme getTheme() {
 
         String key = sharedPref.getString(KEY, AppTheme.LIGHT.getKey());
 
-        for (AppTheme appTheme: AppTheme.values()){
-            if (appTheme.getKey().equals(key)){
+        for (AppTheme appTheme : AppTheme.values()) {
+            if (appTheme.getKey().equals(key)) {
                 return appTheme;
             }
         }
@@ -29,12 +29,12 @@ public class ThemeStorage {
 
     }
 
-    public void setTheme(AppTheme appTheme){
+    public void setTheme(AppTheme appTheme) {
 
         sharedPref.edit()
                 .putString(KEY, appTheme.getKey())
                 .apply();
 
     }
-
 }
+

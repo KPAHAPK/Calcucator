@@ -1,6 +1,6 @@
 package com.android1.calculator;
 
-public enum  AppTheme {
+public enum AppTheme {
     LIGHT(R.style.Calculator_Light, "LightTheme"),
     DARK(R.style.Calculator_Dark, "DarkTheme");
 

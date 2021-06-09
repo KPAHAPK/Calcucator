@@ -1,37 +1,48 @@
 package com.android1.calculator;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.text.DecimalFormat;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private ThemeStorage themeStorage;
     private boolean isFirstOperation = true;
     private boolean isOperatorSelected = false;
     private boolean needToCleanWorkField = false;
 
-    SwitchCompat switchTheme;
     MaterialButton pressedButton;
+    private final int[] numberButtonIds = new int[]{R.id.number_1, R.id.number_2, R.id.number_3,
+            R.id.number_4, R.id.number_5, R.id.number_6, R.id.number_7, R.id.number_8, R.id.number_9};
+    private final int[] symbolButtonIds = new int[]{R.id.addition, R.id.subtraction, R.id.multiplication,
+            R.id.division};
 
-    private final String KEY = "Key";
+    private final String KEY = "KEY";
     FieldsAndValues values;
 
     EditText workField;
     TextView result;
     TextView fakeWorkField;
+    public static ThemeStorage themeStorage;
 
 
     @Override
@@ -54,22 +65,8 @@ public class MainActivity extends AppCompatActivity {
         result = findViewById(R.id.result);
         fakeWorkField = findViewById(R.id.fake_text_view);
 
-        switchTheme = findViewById(R.id.switch_theme);
-
         MaterialButton button0 = findViewById(R.id.number_0);
-        MaterialButton button1 = findViewById(R.id.number_1);
-        MaterialButton button2 = findViewById(R.id.number_2);
-        MaterialButton button3 = findViewById(R.id.number_3);
-        MaterialButton button4 = findViewById(R.id.number_4);
-        MaterialButton button5 = findViewById(R.id.number_5);
-        MaterialButton button6 = findViewById(R.id.number_6);
-        MaterialButton button7 = findViewById(R.id.number_7);
-        MaterialButton button8 = findViewById(R.id.number_8);
-        MaterialButton button9 = findViewById(R.id.number_9);
-        MaterialButton buttonDivision = findViewById(R.id.division);
-        MaterialButton buttonMultiplication = findViewById(R.id.multiplication);
-        MaterialButton buttonAddition = findViewById(R.id.addition);
-        MaterialButton buttonSubtraction = findViewById(R.id.subtraction);
+
         MaterialButton buttonDot = findViewById(R.id.dot);
         MaterialButton buttonEqual = findViewById(R.id.equal);
         MaterialButton buttonRemove = findViewById(R.id.remove);
@@ -77,36 +74,34 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton buttonCE = findViewById(R.id.ce);
         MaterialButton buttonSwitch = findViewById(R.id.switch_button);
 
-        if (switchTheme.isChecked()) {
-            themeStorage.setTheme(AppTheme.DARK);
-        } else {
-            themeStorage.setTheme(AppTheme.LIGHT);
-        }
 
-        switchTheme.setOnClickListener(v -> {
-            if (switchTheme.isChecked()) {
-                themeStorage.setTheme(AppTheme.DARK);
-            } else {
-                themeStorage.setTheme(AppTheme.LIGHT);
+        ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getData() != null) {
+                        setTheme(result.getData().getIntExtra(SettingsActivity.KEY_RESULT, 0));
+                        recreate();
+                    }
+                }
             }
-            recreate();
         });
 
+
+        findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                launcher.launch(intent);
+            }
+        });
 
         button0.setOnClickListener(element2 -> {
             if (!workField.getText().toString().isEmpty()) {
                 setElementsOfExpression(element2);
             }
         });
-        button1.setOnClickListener(this::setElementsOfExpression);
-        button2.setOnClickListener(this::setElementsOfExpression);
-        button3.setOnClickListener(this::setElementsOfExpression);
-        button4.setOnClickListener(this::setElementsOfExpression);
-        button5.setOnClickListener(this::setElementsOfExpression);
-        button6.setOnClickListener(this::setElementsOfExpression);
-        button7.setOnClickListener(this::setElementsOfExpression);
-        button8.setOnClickListener(this::setElementsOfExpression);
-        button9.setOnClickListener(this::setElementsOfExpression);
+
 
         buttonDot.setOnClickListener(element1 -> {
             MaterialButton button = (MaterialButton) element1;
@@ -120,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         buttonSwitch.setOnClickListener(v -> {
             int a = Integer.parseInt(workField.getText().toString());
             a = a * (-1);
-            workField.setText(String.format("%d", a));
+            workField.setText(String.valueOf(a));
         });
 
         buttonRemove.setOnClickListener(v -> {
@@ -134,13 +129,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        buttonAddition.setOnClickListener(this::setElementsOfExpression);
-
-        buttonMultiplication.setOnClickListener(this::setElementsOfExpression);
-
-        buttonSubtraction.setOnClickListener(this::setElementsOfExpression);
-
-        buttonDivision.setOnClickListener(this::setElementsOfExpression);
 
         buttonEqual.setOnClickListener(v -> {
             pressedButton = (MaterialButton) v;
@@ -242,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
         double tooLittleValue = 0.000000000000001;
         DecimalFormat df;
         if (value == (long) value) {
-            return String.format("%d", (long) value);
+            return String.valueOf((long) value);
         } else {
             if (value < 1 && value > -1) {
                 if (value < tooLittleValue && value > -tooLittleValue) {
@@ -273,6 +261,18 @@ public class MainActivity extends AppCompatActivity {
         isFirstOperation = true;
         isOperatorSelected = false;
         needToCleanWorkField = false;
+    }
+
+    private void setNumberButtonListeners() {
+        for (int numberButtonId : numberButtonIds) {
+            findViewById(numberButtonId).setOnClickListener(this::setElementsOfExpression);
+        }
+    }
+
+    private void setSymbolButtonListeners() {
+        for (int symbolButtonId : symbolButtonIds) {
+            findViewById(symbolButtonId).setOnClickListener(this::setElementsOfExpression);
+        }
     }
 
     @Override

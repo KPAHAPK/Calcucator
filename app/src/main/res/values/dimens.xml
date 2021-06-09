@@ -11,4 +11,6 @@
     <dimen name="result_marginTop_landscape">10dp</dimen>
     <dimen name="mode_icon_size">50dp</dimen>
     <dimen name="margin_top_mode_icon">20dp</dimen>
+    <dimen name="settings_headline">20sp</dimen>
+    <dimen name="mode_margin_top">100dp</dimen>
 </resources>
